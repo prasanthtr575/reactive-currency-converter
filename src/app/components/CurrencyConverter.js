@@ -1,5 +1,4 @@
 import React from "react";
-
 import { CURRENCIES } from './Currencies';
 
 export default class CurrencyConverter extends React.Component {
@@ -8,7 +7,8 @@ export default class CurrencyConverter extends React.Component {
     this.state = {
       fromCurrency: "USD",
       toCurrency: "INR",
-      moneyValue: 0
+      moneyValue: 0,
+      toMoneyValue: 0
     }
   }
 
@@ -37,8 +37,24 @@ export default class CurrencyConverter extends React.Component {
   }
 
   convertCurrency(money, fromCurrency, toCurrency) {
-    let convertedMoney = 7777;
-    return convertedMoney;
+    let base = fromCurrency;
+    let symbols = fromCurrency + ',' + toCurrency;
+    let url = "http://api.fixer.io/latest?base=" + fromCurrency + "&symbols=" + symbols;
+
+    fetch(url)
+      .then(response => response.json().then(currencyConvertion => {
+        let toMoneyValue = money * currencyConvertion.rates[toCurrency];
+
+        this.setState({
+          toMoneyValue: toMoneyValue
+        });
+      }))
+      .catch(function(error) {
+        debugger;
+      // This is where you run code if the server returns any errors
+      });
+
+  //return convertedMoney;
   }
 
   render() {
@@ -56,7 +72,7 @@ export default class CurrencyConverter extends React.Component {
         this.state.fromCurrency,
         this.state.toCurrency
       )
-      } {this.state.toCurrency}</label>
+      } {this.state.toCurrency} {this.state.toMoneyValue}</label>
         </div>
         <div>
           <select
