@@ -7,8 +7,8 @@ export default class CurrencyConverter extends React.Component {
     this.state = {
       fromCurrency: "USD",
       toCurrency: "INR",
-      moneyValue: 0,
-      toMoneyValue: 0
+      moneyValue: 1,
+      toMoneyValue: ""
     }
   }
 
