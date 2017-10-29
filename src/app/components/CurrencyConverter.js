@@ -1,5 +1,6 @@
 import React from "react";
 import { CURRENCIES } from './Currencies';
+import "../utils/valueFormatter";
 
 export default class CurrencyConverter extends React.Component {
   constructor() {
@@ -44,6 +45,7 @@ export default class CurrencyConverter extends React.Component {
     fetch(url)
       .then(response => response.json().then(currencyConvertion => {
         let toMoneyValue = money * currencyConvertion.rates[toCurrency];
+        toMoneyValue = Math.round10(toMoneyValue, -2);
 
         this.setState({
           toMoneyValue: toMoneyValue
